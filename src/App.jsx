@@ -1,30 +1,39 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Boton } from './Boton'
 import './App.css'
 import { Contador } from './Contador'
 import { Logo } from './Logo'
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  const incrementar = ()=>{
-    setCount(count + 1);
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      count : 0
+    }
+    this.incrementar = this.incrementar.bind(this)
+    this.reiniciar = this.reiniciar.bind(this)
   }
 
-  const reiniciar = ()=>{
-    setCount(0)
+  incrementar(){
+    this.setState(({count})=>({count: count + 1}))
   }
 
-  return (
-    <>
-      <Logo/>
-      <div className="card">
-        <Contador count={count}/>
-        <Boton texto={"Click"} claseBoton={"click"} manejarClick={incrementar}/>
-        <Boton texto={"Reiniciar"} claseBoton={"reiniciar"} manejarClick={reiniciar}/>
-      </div>
-    </>
-  )
+  reiniciar(){
+    this.setState({count : 0})
+  }
+
+  render(){
+    return (
+      <>
+        <Logo/>
+        <div className="card">
+          <Contador count={this.state.count}/>
+          <Boton texto={"Click"} claseBoton={"click"} manejarClick={this.incrementar}/>
+          <Boton texto={"Reiniciar"} claseBoton={"reiniciar"} manejarClick={this.reiniciar}/>
+        </div>
+      </>
+    )
+  }
 }
 
 export default App
